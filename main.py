@@ -9,9 +9,10 @@ B=1
 itr=50
 fac=100
 X,Y=250,250
-def draw():
-    for y in range(-Y,Y):
-            for x in range(-X,X):
+depx,depy=0,0
+def draw(size=2):
+    for y in range(-int(depy)-Y,Y-int(depy),size):
+            for x in range(-int(depx)-X,X-int(depx),size):
                 a=x/fac
                 b=y/fac
                 ca,cb=a,b
@@ -27,7 +28,7 @@ def draw():
                 else:
                     n=sqrt(n/itr)
                     c=hsv_to_rgb(1-n,1,255)
-                f.set_at((x+X,y+Y),c)
+                pg.draw.rect(f,c,((x+X,y+Y),(size,size)))
    
     pg.display.flip()
 while B:
@@ -40,9 +41,20 @@ while B:
                 fac+=10
             elif event.button==5:
                 fac-=10
+            
         elif event.type==pg.KEYUP:
             if event.key==pg.K_s:
                 pg.image.save(f,'mandelbrot.png')
+            elif event.key==pg.K_LEFT:
+                depx-=10
+            elif event.key==pg.K_RIGHT:
+                depx+=10
+            elif event.key==pg.K_UP:
+                depy-=10
+            elif event.key==pg.K_DOWN:
+                depy+=10
+            elif event.key==pg.K_c:
+                breakpoint()
             else:
                 t=time.time()
                 draw()
